@@ -21,7 +21,7 @@ class AppText extends StatelessWidget {
       : style = GoogleFonts.roboto(
           fontSize: 20,
           fontWeight: FontWeight.w700,
-          color: AppColors.textColor,
+          color: AppColors.primary,
         );
 
   AppText.cadTitle(this.text, {this.maxLine, super.key})

@@ -12,15 +12,15 @@ class TabTitleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        style: GoogleFonts.bebasNeue(
-          fontWeight: FontWeight.w400,
+        style: GoogleFonts.montserrat(
+          fontWeight: FontWeight.w700,
           fontSize: 33,
           color: AppColors.textColor,
         ),
         children: const [
-          TextSpan(text: 'ON'),
+          TextSpan(text: 'on'),
           TextSpan(
-            text: 'FLY',
+            text: 'fly',
             style: TextStyle(color: AppColors.primary),
           ),
         ],
