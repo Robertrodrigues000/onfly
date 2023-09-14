@@ -18,9 +18,9 @@ class TabTitleWidget extends StatelessWidget {
           color: AppColors.textColor,
         ),
         children: const [
-          TextSpan(text: 'SS'),
+          TextSpan(text: 'ON'),
           TextSpan(
-            text: 'BOOK',
+            text: 'FLY',
             style: TextStyle(color: AppColors.primary),
           ),
         ],

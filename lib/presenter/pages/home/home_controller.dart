@@ -7,12 +7,12 @@ import '../../../domain/entitites/home_info_entity.dart';
 import '../../../domain/usecases/get_home_info_usecase.dart';
 import '../../widgets/snackbar_widget.dart';
 
-class HomeController extends ChangeNotifier {
+class OldHomeController extends ChangeNotifier {
   final _getHomeInfoUsecase = Modular.get<GetHomeInfoUsecase>();
   final homeInfoListListenable = ValueNotifier<HomeInfoEntity?>(null);
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  HomeController() {
+  OldHomeController() {
     _getHomeInfo();
   }
 

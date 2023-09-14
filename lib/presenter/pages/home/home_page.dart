@@ -11,16 +11,16 @@ import 'home_controller.dart';
 import 'widgets/author_section_widget.dart';
 import 'widgets/favorite_section_widget.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class OldHomePage extends StatefulWidget {
+  const OldHomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<OldHomePage> createState() => _OldHomePageState();
 }
 
-class _HomePageState extends AppController<HomePage, HomeController> {
+class _OldHomePageState extends AppController<OldHomePage, OldHomeController> {
   @override
-  HomeController createController() => HomeController();
+  OldHomeController createController() => OldHomeController();
 
   @override
   Widget build(BuildContext context) {
