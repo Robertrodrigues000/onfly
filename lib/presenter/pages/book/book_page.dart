@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ssbook/presenter/pages/book/book_controller.dart';
 
 import '../../../core/app_controller.dart';
 import '../../../core/theme/app_color.dart';
@@ -7,6 +6,7 @@ import '../../../core/theme/app_text.dart';
 import '../../../domain/entitites/book_entity.dart';
 import '../../widgets/bootom_navigation_widget.dart';
 import '../../widgets/loading_screen_widget.dart';
+import 'book_controller.dart';
 
 class BookPage extends StatefulWidget {
   final String bookId;
