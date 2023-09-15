@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:onfly/core/theme/app_color.dart';
 
 import '../../../core/app_controller.dart';
 import '../../../core/theme/app_text.dart';
+import '../../widgets/app_button.dart';
 import '../../widgets/tab_title_widget.dart';
 import 'home_controller.dart';
 
@@ -24,6 +26,27 @@ class _HomePageState extends AppController<HomePage, HomeController> {
         title: const TabTitleWidget(),
         centerTitle: true,
         backgroundColor: Colors.white,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  border: const Border.fromBorderSide(
+                    BorderSide(
+                      color: AppColors.primary,
+                      width: 0.6,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
         leading: GestureDetector(
           onTap: () {},
           child: Icon(
@@ -32,9 +55,23 @@ class _HomePageState extends AppController<HomePage, HomeController> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
+      floatingActionButton: Container(
+        height: 65,
+        width: 65,
+        child: FloatingActionButton(
+          onPressed: () => Modular.to.pushNamed('/expense/'),
+          child: const Icon(Icons.add, size: 30),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AppText.cadTitle('Total'),
+            AppText.cadTitle('R\$ 20,00'),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: SizedBox(
@@ -62,7 +99,16 @@ class _HomePageState extends AppController<HomePage, HomeController> {
                                 Text('25/11/2022'),
                               ],
                             ),
-                            Text('R\$ 45,55'),
+                            Column(
+                              children: [
+                                Text('R\$ 45,55'),
+                                Icon(
+                                  Icons.wifi_off,
+                                  size: 20,
+                                  color: Colors.red,
+                                )
+                              ],
+                            ),
                           ],
                         ),
                         children: [
@@ -70,25 +116,15 @@ class _HomePageState extends AppController<HomePage, HomeController> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
+                              AppButton(
+                                title: "Editar",
                                 width: 120,
-                                child: ElevatedButton(
-                                  child: Text("Editar"),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.primary,
-                                  ),
-                                  onPressed: () {},
-                                ),
+                                onPressed: () {},
                               ),
-                              Container(
+                              AppButton(
+                                title: "Deletar",
                                 width: 120,
-                                child: ElevatedButton(
-                                  child: Text("Deletar"),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.primary,
-                                  ),
-                                  onPressed: () {},
-                                ),
+                                onPressed: () {},
                               ),
                             ],
                           ),
@@ -98,7 +134,7 @@ class _HomePageState extends AppController<HomePage, HomeController> {
                   },
                   separatorBuilder: (BuildContext context, int index) =>
                       Divider(),
-                  itemCount: 8,
+                  itemCount: 4,
                 ),
               ],
             ),

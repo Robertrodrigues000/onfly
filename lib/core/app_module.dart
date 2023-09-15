@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:onfly/presenter/pages/expense/expense_page.dart';
 
 import '../domain/usecases/get_book_usecase.dart';
 import '../domain/usecases/get_home_info_usecase.dart';
@@ -34,7 +35,11 @@ class AppModule extends Module {
           child: (context, args) => const HomePage(),
         ),
         ChildRoute(
-          '/old',
+          '/expense/',
+          child: (context, args) => const ExpensePage(),
+        ),
+        ChildRoute(
+          '/old/',
           child: (context, args) => const OldHomePage(),
         ),
         ChildRoute(

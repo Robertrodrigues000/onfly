@@ -41,6 +41,7 @@ class _OldHomePageState extends AppController<OldHomePage, OldHomeController> {
                         bottomRight: Radius.circular(35),
                       ),
                     ),
+                    
                     bottom: PreferredSize(
                       preferredSize: const Size.fromHeight(kToolbarHeight),
                       child: Align(
