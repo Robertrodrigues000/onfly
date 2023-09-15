@@ -25,7 +25,7 @@ class AppButton extends StatelessWidget {
         child: Text(title),
         style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary, shape: StadiumBorder()),
-        onPressed: () => onPressed,
+        onPressed: () => onPressed(),
       ),
     );
   }

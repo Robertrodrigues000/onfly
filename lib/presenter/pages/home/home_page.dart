@@ -1,121 +1,112 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:onfly/core/theme/app_color.dart';
+import 'package:onfly/domain/entitites/expenses_entity.dart';
 
 import '../../../core/app_controller.dart';
-import '../../../core/theme/app_color.dart';
 import '../../../core/theme/app_text.dart';
-import '../../../domain/entitites/home_info_entity.dart';
-import '../../widgets/bootom_navigation_widget.dart';
-import '../../widgets/loading_screen_widget.dart';
+import '../../widgets/expense_tile.dart';
 import '../../widgets/tab_title_widget.dart';
 import 'home_controller.dart';
-import 'widgets/author_section_widget.dart';
-import 'widgets/favorite_section_widget.dart';
 
-class OldHomePage extends StatefulWidget {
-  const OldHomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<OldHomePage> createState() => _OldHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _OldHomePageState extends AppController<OldHomePage, OldHomeController> {
+class _HomePageState extends AppController<HomePage, HomeController> {
   @override
-  OldHomeController createController() => OldHomeController();
+  HomeController createController() => HomeController();
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<HomeInfoEntity?>(
-      valueListenable: controller.homeInfoListListenable,
-      builder: (context, info, _) {
-        return info == null
-            ? const LoadingScreenWidget()
-            : DefaultTabController(
-                length: 2,
-                child: Scaffold(
-                  key: controller.scaffoldKey,
-                  appBar: AppBar(
-                    title: const TabTitleWidget(),
-                    backgroundColor: Colors.white,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(35),
-                      ),
-                    ),
-                    
-                    bottom: PreferredSize(
-                      preferredSize: const Size.fromHeight(kToolbarHeight),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: TabBar(
-                          isScrollable: true,
-                          indicator: const UnderlineTabIndicator(
-                            borderSide: BorderSide(
-                              width: 4,
-                              color: AppColors.primary,
-                            ),
+    return ValueListenableBuilder<List<ExpenseEntity>>(
+        valueListenable: controller.expensesListListenable,
+        builder: (context, expenses, _) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const TabTitleWidget(),
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        border: const Border.fromBorderSide(
+                          BorderSide(
+                            color: AppColors.primary,
+                            width: 0.6,
                           ),
-                          labelPadding:
-                              const EdgeInsets.symmetric(horizontal: 20),
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          tabs: [
-                            Tab(child: AppText.tab('Meus Livros')),
-                            Tab(child: AppText.tab('Emprestados')),
-                          ],
                         ),
                       ),
                     ),
-                    actions: [
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Container(
-                            width: 32,
-                            height: 32,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                border: const Border.fromBorderSide(
-                                  BorderSide(
-                                    color: AppColors.primary,
-                                    width: 0.6,
-                                  ),
-                                ),
-                                image: DecorationImage(
-                                  image: NetworkImage(info.userPicture),
-                                  fit: BoxFit.cover,
-                                )),
-                          ),
-                        ),
-                      )
-                    ],
                   ),
-                  bottomNavigationBar: const BottomNavigationWidget(),
-                  body: TabBarView(
+                )
+              ],
+              leading: GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.menu,
+                  color: AppColors.grey, // add custom icons also
+                ),
+              ),
+            ),
+            floatingActionButton: Container(
+              height: 65,
+              width: 65,
+              child: FloatingActionButton(
+                onPressed: () => Modular.to.pushNamed('/expense/',
+                    arguments: {'addExperiense': controller.addExpense}),
+                child: const Icon(Icons.add, size: 30),
+              ),
+            ),
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppText.cadTitle('Total'),
+                  AppText.cadTitle('R\$ ${controller.getTotalExpense()}'),
+                ],
+              ),
+            ),
+            body: SingleChildScrollView(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: FavoriteSectionWidget(
-                                bookList: controller.favoriteBooks,
-                              ),
-                            ),
-                            const SizedBox(height: 30),
-                            AuthorsSectionWidget(
-                              authorList: controller.favoriteAuthors,
-                              bookList: controller.allBooks,
-                            ),
-                          ],
-                        ),
+                      SizedBox(height: 20),
+                      AppText.sessionTitle('Despesas RDV 1'),
+                      SizedBox(height: 20),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext content, int index) {
+                          return ExpenseTile(
+                            expense: expenses[index],
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            Divider(),
+                        itemCount: expenses.length,
                       ),
-                      Container(),
                     ],
                   ),
                 ),
-              );
-      },
-    );
+              ),
+            ),
+          );
+        });
   }
 }
+

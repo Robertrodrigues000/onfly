@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:onfly/presenter/pages/expense/widget/app_form_field.dart';
 import 'package:onfly/presenter/widgets/app_button.dart';
 
 import '../../../core/app_controller.dart';
@@ -9,7 +9,8 @@ import '../../widgets/tab_title_widget.dart';
 import 'expense_controller.dart';
 
 class ExpensePage extends StatefulWidget {
-  const ExpensePage({super.key});
+  final Function addExpense;
+  const ExpensePage({super.key, required this.addExpense});
 
   @override
   State<ExpensePage> createState() => _ExpensePageState();
@@ -17,8 +18,8 @@ class ExpensePage extends StatefulWidget {
 
 class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
   @override
-  ExpenseController createController() => ExpenseController();
-  TextEditingController dateCtl = TextEditingController();
+  ExpenseController createController() =>
+      ExpenseController(addExpense: widget.addExpense);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +65,7 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
                   child: Column(
                     children: [
                       AppFormField(
-                        controller: TextEditingController(),
+                        controller: controller.descriptionCtl,
                         labelText: "Descrição",
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -74,30 +75,21 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
                         },
                       ),
                       AppFormField(
-                        controller: dateCtl,
-                        dateInput: true,
-                        labelText: "Data",
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                        onTap: () async {
-                          DateTime? date = DateTime(1900);
-                          FocusScope.of(context).requestFocus(new FocusNode());
-
-                          date = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100));
-
-                          dateCtl.text = date!.toIso8601String();
-                        },
-                      ),
+                          controller: controller.dateCtl,
+                          datePicker: () =>
+                              controller.datePicker(context: context),
+                          dateInput: true,
+                          labelText: "Data",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter some text';
+                            }
+                            return null;
+                          },
+                          onTap: () async =>
+                              controller.datePicker(context: context)),
                       AppFormField(
-                        controller: TextEditingController(),
+                        controller: controller.valueCtl,
                         labelText: "Valor",
                         keyboardType: TextInputType.number,
                         validator: (value) {
@@ -115,7 +107,7 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
                       ),
                       AppButton(
                         title: "Adicionar",
-                        onPressed: () {},
+                        onPressed: () => controller.addDataExpese(),
                         width: 1000,
                         height: 50,
                       )
@@ -125,57 +117,6 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class AppFormField extends StatelessWidget {
-  final String labelText;
-  final TextEditingController controller;
-  final String? Function(String?)? validator;
-  final bool? dateInput;
-  final TextInputType? keyboardType;
-  final Function? onTap;
-
-  const AppFormField({
-    super.key,
-    required this.labelText,
-    required this.validator,
-    this.dateInput,
-    this.keyboardType,
-    this.onTap,
-    required this.controller,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Material(
-        borderRadius: BorderRadius.circular(50.0),
-        elevation: 5,
-        child: TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          inputFormatters: keyboardType == TextInputType.number
-              ? [FilteringTextInputFormatter.digitsOnly]
-              : null,
-          onTap: () => onTap,
-          decoration: InputDecoration(
-            labelText: labelText,
-            suffixIcon: (dateInput ?? false)
-                ? IconButton(
-                    icon: Icon(Icons.calendar_month),
-                    onPressed: () {},
-                  )
-                : null,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.0),
-            ),
-          ),
-          validator: validator,
         ),
       ),
     );

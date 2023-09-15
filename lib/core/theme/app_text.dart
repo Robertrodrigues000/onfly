@@ -12,42 +12,42 @@ class AppText extends StatelessWidget {
 
   AppText.tab(this.text, {this.maxLine, super.key})
       : style = GoogleFonts.roboto(
-          fontSize: 14,
+          fontSize: 20,
           fontWeight: FontWeight.w700,
           color: AppColors.textColor,
         );
 
   AppText.sessionTitle(this.text, {this.maxLine, super.key})
       : style = GoogleFonts.roboto(
-          fontSize: 20,
+          fontSize: 26,
           fontWeight: FontWeight.w700,
           color: AppColors.primary,
         );
 
   AppText.cadTitle(this.text, {this.maxLine, super.key})
       : style = GoogleFonts.roboto(
-          fontSize: 16,
+          fontSize: 22,
           fontWeight: FontWeight.w700,
           color: AppColors.textColor,
         );
 
   AppText.subtitle(this.text, {this.maxLine, super.key})
       : style = GoogleFonts.roboto(
-          fontSize: 14,
+          fontSize: 20,
           fontWeight: FontWeight.w400,
           color: AppColors.grey,
         );
 
   AppText.seeMore(this.text, {this.maxLine, super.key})
       : style = GoogleFonts.roboto(
-          fontSize: 14,
+          fontSize: 20,
           fontWeight: FontWeight.w700,
           color: AppColors.primary,
         );
 
   AppText.description(this.text, {this.maxLine, super.key})
       : style = GoogleFonts.roboto(
-          fontSize: 16,
+          fontSize: 22,
           fontWeight: FontWeight.w400,
           color: AppColors.grey,
         );

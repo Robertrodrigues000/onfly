@@ -1,14 +1,16 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
-class ExpensesEntity extends Equatable {
+class ExpenseEntity extends Equatable {
   final String description;
-  final String value;
+  final double value;
   final String? locale;
-  final String? file;
-  final String day;
+  final File? file;
+  final DateTime day;
   final bool? syncronized;
 
-  const ExpensesEntity({
+  const ExpenseEntity({
     required this.description,
     this.locale,
     this.file,

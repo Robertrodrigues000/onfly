@@ -1,38 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:onfly/domain/entitites/expenses_entity.dart';
 
-import '../../../domain/entitites/author_entity.dart';
-import '../../../domain/entitites/book_entity.dart';
-import '../../../domain/entitites/home_info_entity.dart';
-import '../../../domain/usecases/get_home_info_usecase.dart';
-import '../../widgets/snackbar_widget.dart';
-
-class OldHomeController extends ChangeNotifier {
-  final _getHomeInfoUsecase = Modular.get<GetHomeInfoUsecase>();
-  final homeInfoListListenable = ValueNotifier<HomeInfoEntity?>(null);
+class HomeController extends ChangeNotifier {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final expensesListListenable = ValueNotifier<List<ExpenseEntity>>(
+    [
+      ExpenseEntity(
+        day: DateTime.now(),
+        description: "Almoço",
+        value: 1.00,
+      ),
+      ExpenseEntity(
+        day: DateTime.now(),
+        description: "Casa",
+        value: 5.00,
+      ),
+      ExpenseEntity(
+        day: DateTime.now(),
+        description: "Avião",
+        value: 15.00,
+      ),
+      ExpenseEntity(
+        day: DateTime.now(),
+        description: "Almoço",
+        value: 50.00,
+      ),
+    ],
+  );
 
-  OldHomeController() {
-    _getHomeInfo();
+  double getTotalExpense() {
+    double finalResult = 0;
+    expensesListListenable.value.forEach((element) {
+      finalResult += element.value;
+    });
+    return finalResult;
   }
 
-  HomeInfoEntity get homeInfo => homeInfoListListenable.value!;
-  List<BookEntity> get favoriteBooks => homeInfo.favoriteBooks;
-  List<BookEntity> get allBooks => homeInfo.allBooks;
-  List<AuthorEntity> get favoriteAuthors => homeInfo.favoriteAuthors;
-
-  Future<void> _getHomeInfo() async {
-    var response = await _getHomeInfoUsecase();
-
-    if (response.isRight) {
-      homeInfoListListenable.value = response.right;
-      homeInfoListListenable.notifyListeners();
-    } else {
-      SnackbarHelper.error(
-        message:
-            'Erro ao carregar as informações, favor tentar novamente mais tarde.',
-        context: scaffoldKey.currentContext!,
-      );
-    }
+  void addExpense({required ExpenseEntity expense}) async {
+    expensesListListenable.value.add(expense);
+    expensesListListenable.notifyListeners();
   }
 }

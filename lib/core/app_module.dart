@@ -7,9 +7,7 @@ import '../external/datasource/datasource.dart';
 import '../domain/repositories/repository.dart';
 import '../infra/datasource/datasource.dart';
 import '../infra/repositories/repository.dart';
-import '../presenter/pages/book/book_page.dart';
 import '../presenter/pages/home/home_page.dart';
-import '../presenter/pages/new_home/home_page.dart';
 
 class AppModule extends Module {
   @override
@@ -36,16 +34,8 @@ class AppModule extends Module {
         ),
         ChildRoute(
           '/expense/',
-          child: (context, args) => const ExpensePage(),
-        ),
-        ChildRoute(
-          '/old/',
-          child: (context, args) => const OldHomePage(),
-        ),
-        ChildRoute(
-          '/book/',
-          child: (context, args) => BookPage(
-            bookId: args.data['bookId'],
+          child: (context, args) => ExpensePage(
+             addExpense: args.data['addExperiense'],
           ),
         ),
       ];
