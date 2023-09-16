@@ -5,6 +5,10 @@ abstract class IDatasource {
     required ExpenseEntity expense,
   });
 
+  Future<ExpenseEntity> editExpense({
+    required ExpenseEntity expense,
+  });
+
   Future<void> deleteExpense({
     required ExpenseEntity expense,
   });

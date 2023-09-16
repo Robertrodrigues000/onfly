@@ -4,11 +4,13 @@ import 'package:onfly/domain/entitites/expenses_entity.dart';
 
 import '../../../domain/usecases/add_expense_usecase.dart';
 import '../../../domain/usecases/delete_expense_usecase.dart';
+import '../../../domain/usecases/edit_expense_usecase.dart';
 import '../../../domain/usecases/get_expense_list_usecase.dart';
 import '../../widgets/snackbar_widget.dart';
 
 class HomeController extends ChangeNotifier {
   final _addExpenseUsecase = Modular.get<AddExpenseUsecase>();
+  final _editExpenseUsecase = Modular.get<EditExpenseUsecase>();
   final _deleteExpenseUsecase = Modular.get<DeleteExpenseUsecase>();
   final _getExpenseListUsecase = Modular.get<GetExpenseListUsecase>();
 
@@ -43,17 +45,37 @@ class HomeController extends ChangeNotifier {
   }
 
   Future<void> addExpense({required ExpenseEntity expense}) async {
-    var response = await _addExpenseUsecase(expense: expense);
+    if (expense.id != null) {
+      var response = await _editExpenseUsecase(expense: expense);
 
-    if (response.isRight) {
-      expensesListListenable.value.add(expense);
-      expensesListListenable.notifyListeners();
+      if (response.isRight) {
+        for (var i = 0; i < expensesListListenable.value.length; i++) {
+          if (expensesListListenable.value[i].id == expense.id) {
+            expensesListListenable.value[i] = expense;
+          }
+          ;
+        }
+        expensesListListenable.notifyListeners();
+      } else {
+        SnackbarHelper.error(
+          message:
+              'Erro ao carregar as informações, favor tentar novamente mais tarde.',
+          context: scaffoldKey.currentContext!,
+        );
+      }
     } else {
-      SnackbarHelper.error(
-        message:
-            'Erro ao carregar as informações, favor tentar novamente mais tarde.',
-        context: scaffoldKey.currentContext!,
-      );
+      var response = await _addExpenseUsecase(expense: expense);
+
+      if (response.isRight) {
+        expensesListListenable.value.add(expense);
+        expensesListListenable.notifyListeners();
+      } else {
+        SnackbarHelper.error(
+          message:
+              'Erro ao carregar as informações, favor tentar novamente mais tarde.',
+          context: scaffoldKey.currentContext!,
+        );
+      }
     }
   }
 

@@ -26,11 +26,34 @@ class Datasource extends IDatasource {
     Map data = {
       "description": expense.description,
       "expense_date": expense.day.toString(),
-      "amount": 12.11,
+      "amount": expense.amount,
     };
     var body = json.encode(data);
 
     Response response = await post(
+      uri,
+      headers: {
+        "Authorization": _token,
+        "Content-Type": "application/json",
+      },
+      body: body,
+    );
+    return ExpenseMapper.fromMap(jsonDecode(response.body));
+  }
+
+  Future<ExpenseEntity> editExpense({
+    required ExpenseEntity expense,
+  }) async {
+    final uri = Uri.parse(
+        '$urlPrefix/collections/expense_GNSsHd/records/${expense.id}');
+    Map data = {
+      "description": expense.description,
+      "expense_date": expense.day.toString(),
+      "amount": expense.amount,
+    };
+    var body = json.encode(data);
+
+    Response response = await patch(
       uri,
       headers: {
         "Authorization": _token,

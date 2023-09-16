@@ -6,6 +6,10 @@ abstract class IRepository {
     required ExpenseEntity expense,
   });
 
+  Future<Either<dynamic, ExpenseEntity>> editExpense({
+    required ExpenseEntity expense,
+  });
+
   Future<Either<dynamic, void>> deleteExpense({
     required ExpenseEntity expense,
   });

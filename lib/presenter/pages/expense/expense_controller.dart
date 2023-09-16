@@ -51,6 +51,7 @@ class ExpenseController extends ChangeNotifier {
           description: descriptionCtl.text,
           day: (new DateFormat('dd/MM/yyyy').parse(dateCtl.text)),
           amount: _getNumber(valueCtl.text),
+          id: _expense?.id
         ),
       );
       Modular.to.pop();

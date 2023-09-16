@@ -110,10 +110,11 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
                                 child: Icon(Icons.add_a_photo, size: 80))),
                       ),
                       AppButton(
-                        title: "Adicionar",
                         onPressed: () async => controller.addDataExpese(),
                         width: 1000,
                         height: 50,
+                        title:
+                            widget.expense?.id != null ? "Editar" : "Adicionar",
                       )
                     ],
                   ),

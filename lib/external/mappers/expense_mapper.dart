@@ -7,7 +7,7 @@ class ExpenseMapper {
     return ExpenseEntity(
       id: map['id'],
       description: map['description'],
-      amount: map['amount'],
+      amount:map['amount'].toDouble(),
       day: DateTime.parse(map['expense_date']),
     );
   }

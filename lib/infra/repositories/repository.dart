@@ -34,6 +34,20 @@ class Repository extends IRepository {
   }
 
   @override
+  Future<Either<dynamic, ExpenseEntity>> editExpense({
+    required ExpenseEntity expense,
+  }) async {
+     try {
+       ExpenseEntity response = await _datasource.editExpense(
+        expense: expense,
+      );
+      return Right(response);
+    } on DioException catch(e) {
+      return Left(e);
+    }
+  }
+
+  @override
   Future<Either<dynamic, void>> deleteExpense({
     required ExpenseEntity expense,
   }) async {
