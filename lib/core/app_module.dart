@@ -2,6 +2,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:onfly/domain/usecases/add_expense_usecase.dart';
 import 'package:onfly/presenter/pages/expense/expense_page.dart';
 
+import '../domain/usecases/delete_expense_usecase.dart';
+import '../domain/usecases/get_expense_list_usecase.dart';
 import '../external/datasource/datasource.dart';
 import '../domain/repositories/repository.dart';
 import '../infra/datasource/datasource.dart';
@@ -19,6 +21,12 @@ class AppModule extends Module {
         ),
         Bind.lazySingleton(
           (i) => AddExpenseUsecase(repository: i.get()),
+        ),
+        Bind.lazySingleton(
+          (i) => DeleteExpenseUsecase(repository: i.get()),
+        ),
+        Bind.lazySingleton(
+          (i) => GetExpenseListUsecase(repository: i.get()),
         ),
       ];
 

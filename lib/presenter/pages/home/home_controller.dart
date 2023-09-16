@@ -3,35 +3,36 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:onfly/domain/entitites/expenses_entity.dart';
 
 import '../../../domain/usecases/add_expense_usecase.dart';
+import '../../../domain/usecases/delete_expense_usecase.dart';
+import '../../../domain/usecases/get_expense_list_usecase.dart';
+import '../../widgets/snackbar_widget.dart';
 
 class HomeController extends ChangeNotifier {
   final _addExpenseUsecase = Modular.get<AddExpenseUsecase>();
+  final _deleteExpenseUsecase = Modular.get<DeleteExpenseUsecase>();
+  final _getExpenseListUsecase = Modular.get<GetExpenseListUsecase>();
+
+  HomeController() {
+    _getExpenseList();
+  }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final expensesListListenable = ValueNotifier<List<ExpenseEntity>>(
-    [
-      ExpenseEntity(
-        day: DateTime.now(),
-        description: "Almoço",
-        amount: 1.00,
-      ),
-      ExpenseEntity(
-        day: DateTime.now(),
-        description: "Casa",
-        amount: 5.00,
-      ),
-      ExpenseEntity(
-        day: DateTime.now(),
-        description: "Avião",
-        amount: 15.00,
-      ),
-      ExpenseEntity(
-        day: DateTime.now(),
-        description: "Almoço",
-        amount: 50.00,
-      ),
-    ],
-  );
+  final expensesListListenable = ValueNotifier<List<ExpenseEntity>>([]);
+
+  Future<void> _getExpenseList() async {
+    var response = await _getExpenseListUsecase();
+
+    if (response.isRight) {
+      expensesListListenable.value = response.right;
+      expensesListListenable.notifyListeners();
+    } else {
+      SnackbarHelper.error(
+        message:
+            'Erro ao carregar as informações, favor tentar novamente mais tarde.',
+        context: scaffoldKey.currentContext!,
+      );
+    }
+  }
 
   double getTotalExpense() {
     double finalResult = 0;
@@ -42,14 +43,32 @@ class HomeController extends ChangeNotifier {
   }
 
   Future<void> addExpense({required ExpenseEntity expense}) async {
-    await _addExpenseUsecase(expense: expense);
-    expensesListListenable.value.add(expense);
+    var response = await _addExpenseUsecase(expense: expense);
 
-    expensesListListenable.notifyListeners();
+    if (response.isRight) {
+      expensesListListenable.value.add(expense);
+      expensesListListenable.notifyListeners();
+    } else {
+      SnackbarHelper.error(
+        message:
+            'Erro ao carregar as informações, favor tentar novamente mais tarde.',
+        context: scaffoldKey.currentContext!,
+      );
+    }
   }
 
   void onDeleteExpense({required ExpenseEntity expense}) async {
-    expensesListListenable.value.remove(expense);
-    expensesListListenable.notifyListeners();
+    var response = await _deleteExpenseUsecase(expense: expense);
+
+    if (response.isRight) {
+      expensesListListenable.value.remove(expense);
+      expensesListListenable.notifyListeners();
+    } else {
+      SnackbarHelper.error(
+        message:
+            'Erro ao carregar as informações, favor tentar novamente mais tarde.',
+        context: scaffoldKey.currentContext!,
+      );
+    }
   }
 }

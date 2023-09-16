@@ -1,3 +1,5 @@
+import 'package:either_dart/either.dart';
+import 'package:dio/dio.dart';
 import 'package:onfly/domain/entitites/expenses_entity.dart';
 
 import '../../domain/repositories/repository.dart';
@@ -18,20 +20,40 @@ class Repository extends IRepository {
   // }
 
   @override
-  Future<ExpenseEntity> addExpense({
+  Future<Either<dynamic, ExpenseEntity>> addExpense({
     required ExpenseEntity expense,
-  }) {
-    try {
-      return _datasource.addExpense(
+  }) async {
+     try {
+       ExpenseEntity response = await _datasource.addExpense(
         expense: expense,
       );
-    } catch (e) {
-      // SnackbarHelper.error(
-      //   message:
-      //       'Erro ao carregar as informações do livro, favor tentar novamente mais tarde.',
-      //   context: context!,
-      // );
-      rethrow;
+      return Right(response);
+    } on DioException catch(e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  Future<Either<dynamic, void>> deleteExpense({
+    required ExpenseEntity expense,
+  }) async {
+     try {
+       var response = await _datasource.deleteExpense(
+        expense: expense,
+      );
+      return Right(response);
+    } on DioException catch(e) {
+      return Left(e);
+    }
+  }
+  
+  @override
+   Future<Either<Exception, List<ExpenseEntity>>> getExpensesList() async {
+     try {
+       List<ExpenseEntity> response = await _datasource.getExpenseList();
+      return Right(response);
+    } on DioException catch(e) {
+      return Left(e);
     }
   }
 }

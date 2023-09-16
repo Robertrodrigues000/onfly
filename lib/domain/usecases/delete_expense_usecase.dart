@@ -3,17 +3,17 @@ import 'package:onfly/domain/entitites/expenses_entity.dart';
 
 import '../../infra/repositories/repository.dart';
 
-class AddExpenseUsecase {
+class DeleteExpenseUsecase {
   final Repository _repository;
 
-  AddExpenseUsecase({
+  DeleteExpenseUsecase({
     required Repository repository,
   }) : _repository = repository;
 
-  Future<Either<dynamic, ExpenseEntity>> call({
+  Future<Either<dynamic, void>> call({
     required ExpenseEntity expense,
   }) async {
-    return await _repository.addExpense(
+    return await _repository.deleteExpense(
       expense: expense,
     );
   }

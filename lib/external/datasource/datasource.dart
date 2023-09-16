@@ -38,9 +38,44 @@ class Datasource extends IDatasource {
       },
       body: body,
     );
-
-    String responseBody = response.body;
-    print(responseBody);
     return ExpenseMapper.fromMap(jsonDecode(response.body));
+  }
+
+  @override
+  Future<void> deleteExpense({
+    required ExpenseEntity expense,
+  }) async {
+    final uri = Uri.parse(
+        '$urlPrefix/collections/expense_GNSsHd/records/:${expense.id}');
+    Response response = await delete(
+      uri,
+      headers: {
+        "Authorization": _token,
+        "Content-Type": "application/json",
+      },
+    );
+    if (response.statusCode == 200) {
+      print('object');
+    }
+  }
+
+  @override
+  Future<List<ExpenseEntity>> getExpenseList() async {
+    final uri = Uri.parse('$urlPrefix/collections/expense_GNSsHd/records');
+
+    Response response = await get(
+      uri,
+      headers: {
+        "Authorization": _token,
+        "Content-Type": "application/json",
+      },
+    );
+
+    var data = jsonDecode(response.body);
+
+    List<ExpenseEntity> data2 = (data['items'] as List)
+        .map((item) => ExpenseMapper.fromMap(item))
+        .toList();
+    return data2;
   }
 }
