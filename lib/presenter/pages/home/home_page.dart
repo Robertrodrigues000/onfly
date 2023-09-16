@@ -63,8 +63,12 @@ class _HomePageState extends AppController<HomePage, HomeController> {
               height: 65,
               width: 65,
               child: FloatingActionButton(
-                onPressed: () => Modular.to.pushNamed('/expense/',
-                    arguments: {'addExperiense': controller.addExpense}),
+                onPressed: () => Modular.to.pushNamed(
+                  '/expense/',
+                  arguments: {
+                    'addExperiense': controller.addExpense,
+                  },
+                ),
                 child: const Icon(Icons.add, size: 30),
               ),
             ),
@@ -95,6 +99,7 @@ class _HomePageState extends AppController<HomePage, HomeController> {
                           return ExpenseTile(
                             expense: expenses[index],
                             onDelete: controller.onDeleteExpense,
+                            addExpense: controller.addExpense,
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) =>
@@ -110,4 +115,3 @@ class _HomePageState extends AppController<HomePage, HomeController> {
         });
   }
 }
-

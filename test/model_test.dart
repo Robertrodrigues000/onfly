@@ -1,34 +1,30 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:onfly/domain/entitites/book_entity.dart';
-import 'package:onfly/external/mappers/book_mapper.dart';
+import 'package:onfly/domain/entitites/expenses_entity.dart';
+import 'package:onfly/external/mappers/expense_mapper.dart';
 
 void main() {
   test('Create a model from Json', () {
-    final fake = BookMapper.fake();
+    final fake = ExpenseMapper.fake();
 
     final json = {
       'id': fake.id,
-      'name': fake.name,
-      'author': {
-        'name': fake.author,
-      },
-      'cover': fake.cover,
+      'day': fake.day,
+      'amount': fake.amount,
       'description': fake.description,
-      'isFavorite': fake.isFavorite,
     };
 
-    final automationData = BookMapper.fromMap(json);
+    final automationData = ExpenseMapper.fromMap(json);
 
-    expect(automationData, isA<BookEntity>());
+    expect(automationData, isA<ExpenseEntity>());
     expect(automationData, fake);
   });
 
   test('Create a fake model', () {
-    final automationData = BookMapper.fake();
+    final automationData = ExpenseMapper.fake();
 
-    expect(automationData, isA<BookEntity>());
+    expect(automationData, isA<ExpenseEntity>());
 
-    final other = BookMapper.fake();
+    final other = ExpenseMapper.fake();
 
     expect(other, isNot(automationData));
   });

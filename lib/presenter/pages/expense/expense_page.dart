@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onfly/domain/entitites/expenses_entity.dart';
 import 'package:onfly/presenter/pages/expense/widget/app_form_field.dart';
 import 'package:onfly/presenter/widgets/app_button.dart';
 
@@ -10,7 +11,8 @@ import 'expense_controller.dart';
 
 class ExpensePage extends StatefulWidget {
   final Function addExpense;
-  const ExpensePage({super.key, required this.addExpense});
+  final ExpenseEntity? expense;
+  const ExpensePage({super.key, required this.addExpense, this.expense});
 
   @override
   State<ExpensePage> createState() => _ExpensePageState();
@@ -19,7 +21,7 @@ class ExpensePage extends StatefulWidget {
 class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
   @override
   ExpenseController createController() =>
-      ExpenseController(addExpense: widget.addExpense);
+      ExpenseController(addExpense: widget.addExpense, expense: widget.expense);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +63,7 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
                 AppText.sessionTitle('Adicionar Despesa'),
                 SizedBox(height: 20),
                 Form(
-                  // key: _formKey,
+                  key: controller.formKey,
                   child: Column(
                     children: [
                       AppFormField(
@@ -69,7 +71,7 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
                         labelText: "Descrição",
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Favor adicionar descrição';
                           }
                           return null;
                         },
@@ -82,7 +84,7 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
                           labelText: "Data",
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
+                              return 'Favor adicionar data';
                             }
                             return null;
                           },
@@ -94,7 +96,7 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Favor adicionar o valor';
                           }
                           return null;
                         },
@@ -103,11 +105,13 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Icon(Icons.add_a_photo, size: 80)),
+                            child: InkWell(
+                                onTap: () => controller.getFile(),
+                                child: Icon(Icons.add_a_photo, size: 80))),
                       ),
                       AppButton(
                         title: "Adicionar",
-                        onPressed: () => controller.addDataExpese(),
+                        onPressed: () async => controller.addDataExpese(),
                         width: 1000,
                         height: 50,
                       )

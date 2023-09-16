@@ -26,33 +26,29 @@ class AppFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Material(
-        borderRadius: BorderRadius.circular(50.0),
-        elevation: 5,
-        child: TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          inputFormatters: keyboardType == TextInputType.number
-              ? [
-                  FilteringTextInputFormatter.digitsOnly,
-                  CurrencyInputFormatter(),
-                ]
+      child: TextFormField(
+        controller: controller,
+        keyboardType: keyboardType,
+        inputFormatters: keyboardType == TextInputType.number
+            ? [
+                FilteringTextInputFormatter.digitsOnly,
+                CurrencyInputFormatter(),
+              ]
+            : null,
+        onTap: onTap,
+        decoration: InputDecoration(
+          labelText: labelText,
+          suffixIcon: (dateInput ?? false)
+              ? IconButton(
+                  icon: Icon(Icons.calendar_month),
+                  onPressed: datePicker,
+                )
               : null,
-          onTap: onTap,
-          decoration: InputDecoration(
-            labelText: labelText,
-            suffixIcon: (dateInput ?? false)
-                ? IconButton(
-                    icon: Icon(Icons.calendar_month),
-                    onPressed: datePicker,
-                  )
-                : null,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50.0),
-            ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50.0),
           ),
-          validator: validator,
         ),
+        validator: validator,
       ),
     );
   }

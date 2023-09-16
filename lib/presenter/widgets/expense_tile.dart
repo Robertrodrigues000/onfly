@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 
 import '../../domain/entitites/expenses_entity.dart';
@@ -7,10 +8,13 @@ import 'app_button.dart';
 class ExpenseTile extends StatelessWidget {
   final ExpenseEntity expense;
   final Function onDelete;
+  final Function addExpense;
 
   const ExpenseTile({
     super.key,
-    required this.expense, required this.onDelete,
+    required this.expense,
+    required this.onDelete,
+    required this.addExpense,
   });
 
   @override
@@ -29,7 +33,7 @@ class ExpenseTile extends StatelessWidget {
             ),
             Column(
               children: [
-                Text('R\$ ${expense.value}'),
+                Text('R\$ ${expense.amount}'),
                 Icon(
                   Icons.wifi_off,
                   size: 20,
@@ -47,7 +51,13 @@ class ExpenseTile extends StatelessWidget {
               AppButton(
                 title: "Editar",
                 width: 120,
-                onPressed: () {},
+                onPressed: () => Modular.to.pushNamed(
+                  '/expense/',
+                  arguments: {
+                    'addExperiense': addExpense,
+                    'expense': expense,
+                  },
+                ),
               ),
               AppButton(
                 title: "Deletar",

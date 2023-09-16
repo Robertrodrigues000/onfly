@@ -1,8 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:onfly/domain/usecases/add_expense_usecase.dart';
 import 'package:onfly/presenter/pages/expense/expense_page.dart';
 
-import '../domain/usecases/get_book_usecase.dart';
-import '../domain/usecases/get_home_info_usecase.dart';
 import '../external/datasource/datasource.dart';
 import '../domain/repositories/repository.dart';
 import '../infra/datasource/datasource.dart';
@@ -19,10 +18,7 @@ class AppModule extends Module {
           (i) => Repository(datasource: i.get()),
         ),
         Bind.lazySingleton(
-          (i) => GetHomeInfoUsecase(repository: i.get()),
-        ),
-        Bind.lazySingleton(
-          (i) => GetBookUsecase(repository: i.get()),
+          (i) => AddExpenseUsecase(repository: i.get()),
         ),
       ];
 
@@ -36,6 +32,7 @@ class AppModule extends Module {
           '/expense/',
           child: (context, args) => ExpensePage(
              addExpense: args.data['addExperiense'],
+             expense: args.data['expense'],
           ),
         ),
       ];
