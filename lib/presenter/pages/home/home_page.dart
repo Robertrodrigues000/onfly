@@ -23,66 +23,67 @@ class _HomePageState extends AppController<HomePage, HomeController> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<List<ExpenseEntity>>(
-        valueListenable: controller.expensesListListenable,
-        builder: (context, expenses, _) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const TabTitleWidget(),
-              centerTitle: true,
-              backgroundColor: Colors.white,
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: const Border.fromBorderSide(
-                          BorderSide(
-                            color: AppColors.primary,
-                            width: 0.6,
-                          ),
+      valueListenable: controller.expensesListListenable,
+      builder: (context, expenses, _) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const TabTitleWidget(),
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: const Border.fromBorderSide(
+                        BorderSide(
+                          color: AppColors.primary,
+                          width: 0.6,
                         ),
                       ),
                     ),
                   ),
-                )
+                ),
+              )
+            ],
+            leading: GestureDetector(
+              onTap: () {},
+              child: Icon(
+                Icons.menu,
+                color: AppColors.grey, // add custom icons also
+              ),
+            ),
+          ),
+          floatingActionButton: Container(
+            height: 65,
+            width: 65,
+            child: FloatingActionButton(
+              onPressed: () => Modular.to.pushNamed(
+                '/expense/',
+                arguments: {
+                  'addExperiense': controller.addExpense,
+                },
+              ),
+              child: const Icon(Icons.add, size: 30),
+            ),
+          ),
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppText.cadTitle('Total'),
+                AppText.cadTitle('R\$ ${controller.getTotalExpense()}'),
               ],
-              leading: GestureDetector(
-                onTap: () {},
-                child: Icon(
-                  Icons.menu,
-                  color: AppColors.grey, // add custom icons also
-                ),
-              ),
             ),
-            floatingActionButton: Container(
-              height: 65,
-              width: 65,
-              child: FloatingActionButton(
-                onPressed: () => Modular.to.pushNamed(
-                  '/expense/',
-                  arguments: {
-                    'addExperiense': controller.addExpense,
-                  },
-                ),
-                child: const Icon(Icons.add, size: 30),
-              ),
-            ),
-            bottomNavigationBar: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppText.cadTitle('Total'),
-                  AppText.cadTitle('R\$ ${controller.getTotalExpense()}'),
-                ],
-              ),
-            ),
-            body: SingleChildScrollView(
+          ),
+          body: Container(
+            child: SingleChildScrollView(
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
@@ -95,6 +96,7 @@ class _HomePageState extends AppController<HomePage, HomeController> {
                       SizedBox(height: 20),
                       ListView.separated(
                         shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (BuildContext content, int index) {
                           return ExpenseTile(
                             expense: expenses[index],
@@ -111,7 +113,9 @@ class _HomePageState extends AppController<HomePage, HomeController> {
                 ),
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

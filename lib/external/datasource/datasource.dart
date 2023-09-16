@@ -46,7 +46,7 @@ class Datasource extends IDatasource {
     required ExpenseEntity expense,
   }) async {
     final uri = Uri.parse(
-        '$urlPrefix/collections/expense_GNSsHd/records/:${expense.id}');
+        '$urlPrefix/collections/expense_GNSsHd/records/${expense.id}');
     Response response = await delete(
       uri,
       headers: {
