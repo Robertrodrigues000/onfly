@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:onfly/domain/entitites/expenses_entity.dart';
+import 'package:onfly/external/mappers/expense_mapper.dart';
 
 import '../../infra/datasource/datasource.dart';
 
@@ -23,26 +24,23 @@ class Datasource extends IDatasource {
   }) async {
     final uri = Uri.parse('$urlPrefix/collections/expense_GNSsHd/records');
     Map data = {
-      "description": "description",
-      "expense_date": "2023-09-01 10:00:00.123Z",
+      "description": expense.description,
+      "expense_date": expense.day.toString(),
       "amount": 12.11,
     };
     var body = json.encode(data);
 
     Response response = await post(
       uri,
-      headers: {"Authorization": _token},
+      headers: {
+        "Authorization": _token,
+        "Content-Type": "application/json",
+      },
       body: body,
     );
 
     String responseBody = response.body;
     print(responseBody);
-
-    try {
-      return ExpenseEntity(
-          day: DateTime.now(), description: 'asdf', amount: 12);
-    } catch (e) {
-      rethrow;
-    }
+    return ExpenseMapper.fromMap(jsonDecode(response.body));
   }
 }

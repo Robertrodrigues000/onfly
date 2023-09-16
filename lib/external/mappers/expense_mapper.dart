@@ -2,14 +2,13 @@ import 'package:faker/faker.dart';
 
 import '../../domain/entitites/expenses_entity.dart';
 
-
 class ExpenseMapper {
   static ExpenseEntity fromMap(Map<String, dynamic> map) {
     return ExpenseEntity(
       id: map['id'],
       description: map['description'],
       amount: map['amount'],
-      day: map['day'],
+      day: DateTime.parse(map['expense_date']),
     );
   }
 
