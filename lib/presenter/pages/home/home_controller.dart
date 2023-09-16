@@ -79,18 +79,42 @@ class HomeController extends ChangeNotifier {
     }
   }
 
-  void onDeleteExpense({required ExpenseEntity expense}) async {
-    var response = await _deleteExpenseUsecase(expense: expense);
+  Future<void> onDeleteExpense(
+      {required ExpenseEntity expense, required BuildContext context}) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("AlertDialog"),
+          content: Text("Você tem certeza que deseja deletar esta despesa?"),
+          actions: [
+            ElevatedButton(
+              child: Text("Cancel"),
+              onPressed: () {
+                Modular.to.pop();
+              },
+            ),
+            ElevatedButton(
+              child: Text("Continue"),
+              onPressed: () async {
+                Modular.to.pop();
+                var response = await _deleteExpenseUsecase(expense: expense);
 
-    if (response.isRight) {
-      expensesListListenable.value.remove(expense);
-      expensesListListenable.notifyListeners();
-    } else {
-      SnackbarHelper.error(
-        message:
-            'Erro ao carregar as informações, favor tentar novamente mais tarde.',
-        context: scaffoldKey.currentContext!,
-      );
-    }
+                if (response.isRight) {
+                  expensesListListenable.value.remove(expense);
+                  expensesListListenable.notifyListeners();
+                } else {
+                  SnackbarHelper.error(
+                    message:
+                        'Erro ao carregar as informações, favor tentar novamente mais tarde.',
+                    context: scaffoldKey.currentContext!,
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

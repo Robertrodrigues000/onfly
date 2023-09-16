@@ -62,7 +62,7 @@ class ExpenseTile extends StatelessWidget {
               AppButton(
                 title: "Deletar",
                 width: 120,
-                onPressed: () => onDelete(expense: expense),
+                onPressed: () => onDelete(expense: expense, context: context),
               ),
             ],
           ),
