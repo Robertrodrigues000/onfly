@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart';
 import 'package:onfly/domain/entitites/expenses_entity.dart';
 
@@ -19,36 +21,17 @@ class Datasource extends IDatasource {
   Future<ExpenseEntity> addExpense({
     required ExpenseEntity expense,
   }) async {
-    // var url = "$urlPrefix/collections/expense_GNSsHd/records";
-    // Client client = Client();
-    // String jsonBody = json.encode({
-    //   "description": expense.description,
-    //   "expense_date": expense.day.toIso8601String(),
-    //   "amount": expense.amount.toString(),
-    // });
-    // var response = await client.post(
-    //   Uri.parse(url),
-    //   body: jsonBody,
-    //   headers: headers,
-    // );
-    // if (response.statusCode != 200) {
-    //   throw Exception(
-    //       "Request to $url failed with status ${response.statusCode}: ${response.body}");
-    // }
-
     final uri = Uri.parse('$urlPrefix/collections/expense_GNSsHd/records');
-    final headers = {
-      "Authorization": "Bearer $_token",
-    };
-    Map<String, dynamic> body = {
+    Map data = {
       "description": "description",
       "expense_date": "2023-09-01 10:00:00.123Z",
-      "amount": "12.11"
+      "amount": 12.11,
     };
+    var body = json.encode(data);
 
     Response response = await post(
       uri,
-      headers: headers,
+      headers: {"Authorization": _token},
       body: body,
     );
 
@@ -56,9 +39,6 @@ class Datasource extends IDatasource {
     print(responseBody);
 
     try {
-      // final response =
-      //     await hasuraConnect.query(AppQueries.getBook(bookId: bookId));
-      // return BookMapper.fromMap(response['data']['book']);
       return ExpenseEntity(
           day: DateTime.now(), description: 'asdf', amount: 12);
     } catch (e) {
