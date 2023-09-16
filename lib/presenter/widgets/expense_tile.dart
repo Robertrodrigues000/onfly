@@ -6,10 +6,11 @@ import 'app_button.dart';
 
 class ExpenseTile extends StatelessWidget {
   final ExpenseEntity expense;
+  final Function onDelete;
 
   const ExpenseTile({
     super.key,
-    required this.expense,
+    required this.expense, required this.onDelete,
   });
 
   @override
@@ -51,7 +52,7 @@ class ExpenseTile extends StatelessWidget {
               AppButton(
                 title: "Deletar",
                 width: 120,
-                onPressed: () {},
+                onPressed: () => onDelete(expense: expense),
               ),
             ],
           ),

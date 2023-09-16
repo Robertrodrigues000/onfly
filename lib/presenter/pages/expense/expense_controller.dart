@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:intl/intl.dart';
 
 import '../../../domain/entitites/expenses_entity.dart';
 
@@ -24,17 +25,23 @@ class ExpenseController extends ChangeNotifier {
         firstDate: DateTime(1900),
         lastDate: DateTime(2100));
 
-    dateCtl.text = date!.toIso8601String();
+    dateCtl.text = DateFormat("dd/MM/yyyy").format(date!);
   }
 
   void addDataExpese() {
     addExpense(
       expense: ExpenseEntity(
         description: descriptionCtl.text,
-        day: DateTime.parse(dateCtl.text),
-        value: double.parse(valueCtl.text),
+        day: (new DateFormat('dd/MM/yyyy').parse(dateCtl.text)),
+        value: _getNumber(valueCtl.text),
       ),
     );
     Modular.to.pop();
+  }
+
+  double _getNumber(String number) {
+    String newNumber = number.replaceAll(RegExp(r','), '.');
+   newNumber = newNumber.replaceAll("R\$","");
+    return double.parse(newNumber);
   }
 }

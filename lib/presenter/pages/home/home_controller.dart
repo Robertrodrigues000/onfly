@@ -40,4 +40,9 @@ class HomeController extends ChangeNotifier {
     expensesListListenable.value.add(expense);
     expensesListListenable.notifyListeners();
   }
+
+  void onDeleteExpense({required ExpenseEntity expense}) async {
+    expensesListListenable.value.remove(expense);
+    expensesListListenable.notifyListeners();
+  }
 }

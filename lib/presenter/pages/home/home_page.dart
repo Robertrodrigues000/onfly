@@ -94,6 +94,7 @@ class _HomePageState extends AppController<HomePage, HomeController> {
                         itemBuilder: (BuildContext content, int index) {
                           return ExpenseTile(
                             expense: expenses[index],
+                            onDelete: controller.onDeleteExpense,
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) =>
