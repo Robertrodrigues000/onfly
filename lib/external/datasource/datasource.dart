@@ -11,9 +11,8 @@ class Datasource extends IDatasource {
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2OTYwNzY2NzksImlkIjoibDFqNnV5b2V4NGNla21wIiwidHlwZSI6ImF1dGhSZWNvcmQifQ.ihHizKyJkkUTJclNPSIC4NPIW-t4LeA3aJjZRQC4Cjk";
 
   Map<String, String> get headers => {
-        // "Content-Type": "application/json",
-        // "Accept": "application/json",
-        "Authorization": "Bearer $_token",
+        "Authorization": _token,
+        "Content-Type": "application/json",
       };
 
   String get urlPrefix => 'https://go-bd-api-3iyuzyysfa-uc.a.run.app/api';
@@ -27,15 +26,14 @@ class Datasource extends IDatasource {
       "description": expense.description,
       "expense_date": expense.day.toString(),
       "amount": expense.amount,
+      "latitude": expense.latitude,
+      "longitude": expense.longitude,
     };
     var body = json.encode(data);
 
     Response response = await post(
       uri,
-      headers: {
-        "Authorization": _token,
-        "Content-Type": "application/json",
-      },
+      headers: headers,
       body: body,
     );
     return ExpenseMapper.fromMap(jsonDecode(response.body));
@@ -55,10 +53,7 @@ class Datasource extends IDatasource {
 
     Response response = await patch(
       uri,
-      headers: {
-        "Authorization": _token,
-        "Content-Type": "application/json",
-      },
+      headers: headers,
       body: body,
     );
     return ExpenseMapper.fromMap(jsonDecode(response.body));
@@ -72,10 +67,7 @@ class Datasource extends IDatasource {
         '$urlPrefix/collections/expense_GNSsHd/records/${expense.id}');
     Response response = await delete(
       uri,
-      headers: {
-        "Authorization": _token,
-        "Content-Type": "application/json",
-      },
+      headers: headers,
     );
     if (response.statusCode == 200) {
       print('object');
@@ -88,10 +80,7 @@ class Datasource extends IDatasource {
 
     Response response = await get(
       uri,
-      headers: {
-        "Authorization": _token,
-        "Content-Type": "application/json",
-      },
+      headers: headers,
     );
 
     var data = jsonDecode(response.body);

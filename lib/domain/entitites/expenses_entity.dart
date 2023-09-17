@@ -6,7 +6,8 @@ class ExpenseEntity extends Equatable {
   final String? id;
   final String description;
   final double amount;
-  final String? locale;
+  final String? latitude;
+  final String? longitude;
   final File? file;
   final DateTime day;
   final bool? syncronized;
@@ -14,7 +15,8 @@ class ExpenseEntity extends Equatable {
   const ExpenseEntity({
     this.id,
     required this.description,
-    this.locale,
+    this.latitude,
+    this.longitude,
     this.file,
     required this.day,
     this.syncronized,
@@ -25,7 +27,8 @@ class ExpenseEntity extends Equatable {
     String? id,
     String? description,
     double? amount,
-    String? locale,
+    String? latitude,
+    String? longitude,
     File? file,
     DateTime? day,
     bool? syncronized,
@@ -35,7 +38,8 @@ class ExpenseEntity extends Equatable {
       day: day ?? this.day,
       amount: amount ?? this.amount,
       id: id ?? this.id,
-      locale: locale ?? this.locale,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
       file: file ?? this.file,
       syncronized: syncronized ?? this.syncronized,
     );
@@ -45,7 +49,8 @@ class ExpenseEntity extends Equatable {
   List<Object?> get props => [
         id,
         description,
-        locale,
+        latitude,
+        longitude,
         file,
         day,
         syncronized,

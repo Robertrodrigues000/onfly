@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 
 import '../../../domain/entitites/expenses_entity.dart';
 
@@ -12,6 +13,7 @@ class ExpenseController extends ChangeNotifier {
   final expensesListListenable = ValueNotifier<ExpenseEntity?>(null);
   final formKey = GlobalKey<FormState>();
 
+  Location location = new Location();
   TextEditingController dateCtl = TextEditingController();
   TextEditingController descriptionCtl = TextEditingController();
   TextEditingController valueCtl = TextEditingController();
@@ -44,15 +46,18 @@ class ExpenseController extends ChangeNotifier {
     dateCtl.text = DateFormat("dd/MM/yyyy").format(date!);
   }
 
-  void addDataExpese() {
+  void addDataExpese() async {
     if (formKey.currentState!.validate()) {
+      LocationData location = await _getLocation();
       addExpense(
         expense: ExpenseEntity(
-          description: descriptionCtl.text,
-          day: (new DateFormat('dd/MM/yyyy').parse(dateCtl.text)),
-          amount: _getNumber(valueCtl.text),
-          id: _expense?.id
-        ),
+            id: _expense?.id,
+            description: descriptionCtl.text,
+            day: (new DateFormat('dd/MM/yyyy').parse(dateCtl.text)),
+            amount: _getNumber(valueCtl.text),
+            latitude: location.latitude.toString(),
+            longitude: location.longitude.toString()
+            ),
       );
       Modular.to.pop();
     }
@@ -67,10 +72,29 @@ class ExpenseController extends ChangeNotifier {
   Future<void> getFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-if (result != null) {
-  // File file = File(result.files.single.path);
-} else {
-  // User canceled the picker
-}
+    if (result != null) {
+      // File file = File(result.files.single.path);
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  Future<LocationData> _getLocation() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+    }
+
+    _locationData = await location.getLocation();
+    return _locationData;
   }
 }
