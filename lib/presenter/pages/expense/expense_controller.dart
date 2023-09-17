@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -11,6 +13,7 @@ class ExpenseController extends ChangeNotifier {
   final ExpenseEntity? _expense;
 
   final expensesListListenable = ValueNotifier<ExpenseEntity?>(null);
+  final fileListenable = ValueNotifier<File?>(null);
   final formKey = GlobalKey<FormState>();
 
   Location location = new Location();
@@ -56,7 +59,8 @@ class ExpenseController extends ChangeNotifier {
             day: (new DateFormat('dd/MM/yyyy').parse(dateCtl.text)),
             amount: _getNumber(valueCtl.text),
             latitude: location.latitude.toString(),
-            longitude: location.longitude.toString()
+            longitude: location.longitude.toString(),
+            file: fileListenable.value,
             ),
       );
       Modular.to.pop();
@@ -73,9 +77,7 @@ class ExpenseController extends ChangeNotifier {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
     if (result != null) {
-      // File file = File(result.files.single.path);
-    } else {
-      // User canceled the picker
+      fileListenable.value = File(result.files.first.path!);
     }
   }
 

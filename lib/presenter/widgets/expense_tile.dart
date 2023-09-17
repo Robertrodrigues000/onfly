@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
@@ -46,7 +48,11 @@ class ExpenseTile extends StatelessWidget {
           ],
         ),
         children: [
-          Text("Name : User ${expense.description}"),
+         if(expense.file != null) Image.file(
+            File(expense.file!.path),
+            height: 100,
+            fit: BoxFit.fill,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

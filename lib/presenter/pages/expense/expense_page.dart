@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:onfly/domain/entitites/expenses_entity.dart';
 import 'package:onfly/presenter/pages/expense/widget/app_form_field.dart';
@@ -107,10 +109,24 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: InkWell(
-                                onTap: () => controller.getFile(),
-                                child: Icon(Icons.add_a_photo, size: 80))),
+                          alignment: Alignment.centerLeft,
+                          child: ValueListenableBuilder<File?>(
+                              valueListenable: controller.fileListenable,
+                              builder: (context, file, _) {
+                                return file != null
+                                    ? Image.file(
+                                        File(file.path),
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.fill,
+                                      )
+                                    : InkWell(
+                                        onTap: () => controller.getFile(),
+                                        child:
+                                            Icon(Icons.add_a_photo, size: 80),
+                                      );
+                              }),
+                        ),
                       ),
                       AppButton(
                         onPressed: () async => controller.addDataExpese(),

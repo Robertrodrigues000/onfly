@@ -85,7 +85,9 @@ class HomeController extends ChangeNotifier {
         var response = await _addExpenseUsecase(expense: expense);
 
         if (response.isRight) {
-          expensesListListenable.value.add(response.right);
+          expense = expense.copyWith(id: response.right.id);
+
+          expensesListListenable.value.add(expense);
           expensesListListenable.notifyListeners();
         } else {
           SnackbarHelper.error(
