@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/theme/app_text.dart';
 import '../../domain/entitites/expenses_entity.dart';
 import 'app_button.dart';
 
@@ -29,13 +30,13 @@ class ExpenseTile extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(expense.description),
-                Text(DateFormat("dd/MM/yyyy").format(expense.day)),
+                AppText.bodyText(expense.description),
+                AppText.bodyText(DateFormat("dd/MM/yyyy").format(expense.day)),
               ],
             ),
             Column(
               children: [
-                Text('R\$ ${expense.amount}'),
+                AppText.bodyText('R\$ ${expense.amount}'),
                 expense.syncronized ?? true
                     ? Container()
                     : Icon(
@@ -48,11 +49,12 @@ class ExpenseTile extends StatelessWidget {
           ],
         ),
         children: [
-         if(expense.file != null) Image.file(
-            File(expense.file!.path),
-            height: 100,
-            fit: BoxFit.fill,
-          ),
+          if (expense.file != null)
+            Image.file(
+              File(expense.file!.path),
+              height: 100,
+              fit: BoxFit.fill,
+            ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

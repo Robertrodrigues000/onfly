@@ -77,8 +77,8 @@ class _HomePageState extends AppController<HomePage, HomeController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppText.cadTitle('Total'),
-                AppText.cadTitle('R\$ ${controller.getTotalExpense()}'),
+                AppText.secondaryText('Total'),
+                AppText.secondaryText('R\$ ${controller.getTotalExpense()}'),
               ],
             ),
           ),

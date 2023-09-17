@@ -4,7 +4,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:onfly/domain/entitites/expenses_entity.dart';
+import 'package:onfly/presenter/widgets/app_button.dart';
 
+import '../../../core/theme/app_text.dart';
 import '../../../domain/usecases/add_expense_usecase.dart';
 import '../../../domain/usecases/delete_expense_usecase.dart';
 import '../../../domain/usecases/edit_expense_usecase.dart';
@@ -106,17 +108,20 @@ class HomeController extends ChangeNotifier {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("AlertDialog"),
-          content: Text("Você tem certeza que deseja deletar esta despesa?"),
+          title: AppText.bodyText("Apagar despesa"),
+          content: AppText.bodyText(
+              "Você tem certeza que deseja deletar esta despesa?"),
           actions: [
-            ElevatedButton(
-              child: Text("Cancel"),
+            AppButton(
+              title: "Cancel",
+              width: 100,
               onPressed: () {
                 Modular.to.pop();
               },
             ),
-            ElevatedButton(
-              child: Text("Continue"),
+            AppButton(
+              title: "Continue",
+              width: 100,
               onPressed: () async {
                 Modular.to.pop();
                 var response = await _deleteExpenseUsecase(expense: expense);
