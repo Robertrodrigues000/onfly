@@ -34,11 +34,13 @@ class ExpenseTile extends StatelessWidget {
             Column(
               children: [
                 Text('R\$ ${expense.amount}'),
-                Icon(
-                  Icons.wifi_off,
-                  size: 20,
-                  color: Colors.red,
-                )
+                expense.syncronized ?? true
+                    ? Container()
+                    : Icon(
+                        Icons.wifi_off,
+                        size: 20,
+                        color: Colors.red,
+                      )
               ],
             ),
           ],

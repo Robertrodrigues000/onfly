@@ -21,6 +21,26 @@ class ExpenseEntity extends Equatable {
     required this.amount,
   });
 
+  ExpenseEntity copyWith({
+    String? id,
+    String? description,
+    double? amount,
+    String? locale,
+    File? file,
+    DateTime? day,
+    bool? syncronized,
+  }) {
+    return ExpenseEntity(
+      description: description ?? this.description,
+      day: day ?? this.day,
+      amount: amount ?? this.amount,
+      id: id ?? this.id,
+      locale: locale ?? this.locale,
+      file: file ?? this.file,
+      syncronized: syncronized ?? this.syncronized,
+    );
+  }
+
   @override
   List<Object?> get props => [
         id,

@@ -27,6 +27,9 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
     return Scaffold(
       appBar: AppBar(
         title: const TabTitleWidget(),
+        leading: BackButton(
+          color: AppColors.grey,
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         actions: [

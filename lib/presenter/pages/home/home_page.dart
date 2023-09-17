@@ -96,6 +96,7 @@ class _HomePageState extends AppController<HomePage, HomeController> {
                       SizedBox(height: 20),
                       ListView.separated(
                         shrinkWrap: true,
+                        reverse: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (BuildContext content, int index) {
                           return ExpenseTile(
