@@ -10,6 +10,7 @@ import 'app_button.dart';
 
 class ExpenseTile extends StatelessWidget {
   final ExpenseEntity expense;
+  final Function formatAmount;
   final Function onDelete;
   final Function addExpense;
 
@@ -18,6 +19,7 @@ class ExpenseTile extends StatelessWidget {
     required this.expense,
     required this.onDelete,
     required this.addExpense,
+    required this.formatAmount,
   });
 
   @override
@@ -36,7 +38,7 @@ class ExpenseTile extends StatelessWidget {
             ),
             Column(
               children: [
-                AppText.bodyText('R\$ ${expense.amount}'),
+                AppText.bodyText(formatAmount(expense.amount)),
                 expense.syncronized ?? true
                     ? Container()
                     : Icon(

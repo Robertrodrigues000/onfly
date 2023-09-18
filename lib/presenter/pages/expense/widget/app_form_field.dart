@@ -64,7 +64,8 @@ class CurrencyInputFormatter extends TextInputFormatter {
 
     double value = double.parse(newValue.text);
 
-    final formatter = NumberFormat.simpleCurrency(locale: "pt_Br");
+    final formatter =
+        NumberFormat.simpleCurrency(locale: "pt_Br", decimalDigits: 2);
 
     String newText = formatter.format(value / 100);
 

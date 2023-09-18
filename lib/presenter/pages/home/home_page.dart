@@ -69,6 +69,7 @@ class _HomePageState extends AppController<HomePage, HomeController> {
                   'addExperiense': controller.addExpense,
                 },
               ),
+              backgroundColor: AppColors.primary,
               child: const Icon(Icons.add, size: 30),
             ),
           ),
@@ -103,6 +104,7 @@ class _HomePageState extends AppController<HomePage, HomeController> {
                             expense: expenses[index],
                             onDelete: controller.onDeleteExpense,
                             addExpense: controller.addExpense,
+                            formatAmount: controller.asBrlCurrency,
                           );
                         },
                         separatorBuilder: (BuildContext context, int index) =>

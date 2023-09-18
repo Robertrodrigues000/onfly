@@ -10,7 +10,6 @@ class AppText extends StatelessWidget {
 
   const AppText({super.key, required this.text, this.style, this.maxLine});
 
-
   AppText.sessionTitle(this.text, {this.maxLine, super.key})
       : style = GoogleFonts.roboto(
           fontSize: 26,
@@ -22,7 +21,7 @@ class AppText extends StatelessWidget {
       : style = GoogleFonts.roboto(
           fontSize: 22,
           fontWeight: FontWeight.w700,
-          color: AppColors.textColor,
+          color: AppColors.primary,
         );
 
   AppText.bodyText(this.text, {this.maxLine, super.key})

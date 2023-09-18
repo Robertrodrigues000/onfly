@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:intl/intl.dart';
 import 'package:onfly/domain/entitites/expenses_entity.dart';
 import 'package:onfly/presenter/widgets/app_button.dart';
 
@@ -34,6 +35,13 @@ class HomeController extends ChangeNotifier {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final expensesListListenable = ValueNotifier<List<ExpenseEntity>>([]);
 
+  String asBrlCurrency(double value) {
+    final formatter =
+        NumberFormat.simpleCurrency(locale: "pt_Br", decimalDigits: 2);
+
+    return formatter.format(value);
+  }
+
   Future<void> _getExpenseList() async {
     var response = await _getExpenseListUsecase();
 
@@ -54,7 +62,8 @@ class HomeController extends ChangeNotifier {
     expensesListListenable.value.forEach((element) {
       finalResult += element.amount;
     });
-    return finalResult;
+    num n = num.parse(finalResult.toStringAsFixed(2));
+    return n.toDouble();
   }
 
   Future<void> addExpense({required ExpenseEntity expense}) async {
@@ -157,7 +166,6 @@ class HomeController extends ChangeNotifier {
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     _connectionStatus = result;
-    print(_connectionStatus.name);
   }
 
   @override
