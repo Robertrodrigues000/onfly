@@ -111,21 +111,21 @@ class _ExpensePageState extends AppController<ExpensePage, ExpenseController> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: ValueListenableBuilder<File?>(
-                              valueListenable: controller.fileListenable,
-                              builder: (context, file, _) {
-                                return file != null
-                                    ? Image.file(
-                                        File(file.path),
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.fill,
-                                      )
-                                    : InkWell(
-                                        onTap: () => controller.getFile(),
-                                        child:
-                                            Icon(Icons.add_a_photo, size: 80),
-                                      );
-                              }),
+                            valueListenable: controller.fileListenable,
+                            builder: (context, file, _) {
+                              return file != null
+                                  ? Image.file(
+                                      File(file.path),
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.fill,
+                                    )
+                                  : InkWell(
+                                      onTap: () => controller.getFile(),
+                                      child: Icon(Icons.add_a_photo, size: 80),
+                                    );
+                            },
+                          ),
                         ),
                       ),
                       AppButton(

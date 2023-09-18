@@ -9,16 +9,6 @@ class Repository extends IRepository {
   final Datasource _datasource;
   Repository({required Datasource datasource}) : _datasource = datasource;
 
-  // @override
-  // Future<Either<Exception, HomeInfoEntity>> getHomeInfo() async {
-  //   try {
-  //     HomeInfoEntity response = await _datasource.getHomeInfo();
-  //     return Right(response);
-  //   } on DioException catch(e) {
-  //     return Left(e);
-  //   }
-  // }
-
   @override
   Future<Either<dynamic, ExpenseEntity>> addExpense({
     required ExpenseEntity expense,
