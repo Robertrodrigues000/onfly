@@ -7,8 +7,10 @@ class ExpenseMapper {
     return ExpenseEntity(
       id: map['id'],
       description: map['description'],
-      amount:map['amount'].toDouble(),
+      amount: map['amount'].toDouble(),
       day: DateTime.parse(map['expense_date']),
+      latitude: map['latitude'],
+      longitude: map['longitude'],
     );
   }
 
@@ -18,6 +20,8 @@ class ExpenseMapper {
       amount: faker.randomGenerator.decimal(),
       description: faker.lorem.sentence(),
       day: faker.date.dateTime(),
+      latitude: faker.randomGenerator.numberOfLength(8).toString(),
+      longitude: faker.randomGenerator.numberOfLength(8).toString(),
     );
   }
 }

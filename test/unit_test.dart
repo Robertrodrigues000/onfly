@@ -8,9 +8,11 @@ void main() {
 
     final json = {
       'id': fake.id,
-      'day': fake.day,
+      'expense_date': fake.day.toString(),
       'amount': fake.amount,
       'description': fake.description,
+      'latitude': fake.latitude,
+      'longitude': fake.longitude,
     };
 
     final automationData = ExpenseMapper.fromMap(json);

@@ -30,10 +30,8 @@ $ flutter run lib/main.dart
 
 ```
 
-## :airplane: Tests
+## :bar_chart: Tests
 
 ```bash
-$ cd onfly
-
 $ flutter test
 ```

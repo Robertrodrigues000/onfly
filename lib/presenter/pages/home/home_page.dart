@@ -73,16 +73,8 @@ class _HomePageState extends AppController<HomePage, HomeController> {
               child: const Icon(Icons.add, size: 30),
             ),
           ),
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppText.secondaryText('Total'),
-                AppText.secondaryText('R\$ ${controller.getTotalExpense()}'),
-              ],
-            ),
-          ),
+          bottomNavigationBar:
+              BottomInfo(totalExpense: controller.getTotalExpense()),
           body: Container(
             child: SingleChildScrollView(
               child: SizedBox(
@@ -119,6 +111,34 @@ class _HomePageState extends AppController<HomePage, HomeController> {
           ),
         );
       },
+    );
+  }
+}
+
+class BottomInfo extends StatelessWidget {
+  final double totalExpense;
+  const BottomInfo({
+    super.key,
+    required this.totalExpense,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      key: Key('bottomInfo'),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppText.secondaryText('Total'),
+              AppText.secondaryText('R\$ ${totalExpense}'),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
